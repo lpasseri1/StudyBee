@@ -1,0 +1,92 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+
+    --primary: 32.1 94.6% 43.7%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 216 23.8% 95.9%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+
+    --muted: 216 23.8% 95.9%;
+    --muted-foreground: 220.6 13.2% 46.1%;
+
+    --accent: 216 23.8% 95.9%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+
+    --destructive: 3.9 86% 58%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 217.5 17.4% 91%;
+    --input: 217.5 17.4% 91%;
+    --ring: 32.1 94.6% 43.7%;
+
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 220 42.9% 11%;
+    --foreground: 210 40% 98%;
+
+    --card: 219.1 30.7% 14.7%;
+    --card-foreground: 210 40% 98%;
+
+    --popover: 219.1 30.7% 14.7%;
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 32.1 94.6% 43.7%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 214.3 32.6% 16.9%;
+    --secondary-foreground: 210 40% 98%;
+
+    --muted: 214.3 32.6% 16.9%;
+    --muted-foreground: 217.8 15.1% 64.9%;
+
+    --accent: 214.3 32.6% 16.9%;
+    --accent-foreground: 210 40% 98%;
+
+    --destructive: 4.2 74.3% 48.8%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 214.3 32.6% 16.9%;
+    --input: 214.3 32.6% 16.9%;
+    --ring: 32.1 94.6% 43.7%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+/* Chrome, Safari, Edge, Opera */
+input[type='search']::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+/* Firefox */
+input[type='search']::-moz-search-cancel-button {
+  display: none;
+}
+
+/* Microsoft Edge */
+input[type='search']::-ms-clear {
+  display: none;
+}

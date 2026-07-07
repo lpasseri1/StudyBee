@@ -1,0 +1,15 @@
+'use client';
+
+import { createBrowserClient } from '@supabase/ssr';
+
+/**
+ * Supabase client for Client Components. Safe to call repeatedly — Supabase
+ * handles session storage/refresh via cookies (through @supabase/ssr) rather
+ * than localStorage, so this stays in sync with the server client below.
+ */
+export function createClient() {
+  return createBrowserClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+  );
+}
