@@ -1,4 +1,4 @@
-const CACHE_NAME = 'studypath-v1';
+const CACHE_NAME = 'studypath-v2';
 const OFFLINE_URLS = ['/', '/schedule', '/extracurriculars', '/grades', '/study', '/notes'];
 
 self.addEventListener('install', (event) => {
@@ -22,6 +22,14 @@ self.addEventListener('activate', (event) => {
 self.addEventListener('fetch', (event) => {
   const { request } = event;
   if (request.method !== 'GET') return;
+
+  // Never intercept cross-origin requests (Supabase REST/Auth calls, etc.).
+  // Caching those would freeze live data — like avatar color, credits, or
+  // any other Supabase-backed value — at whatever it was the first time it
+  // was fetched, silently serving that stale snapshot forever after. Only
+  // same-origin static assets should ever go through the cache below.
+  const requestUrl = new URL(request.url);
+  if (requestUrl.origin !== self.location.origin) return;
 
   if (request.mode === 'navigate') {
     event.respondWith(
