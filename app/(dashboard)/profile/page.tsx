@@ -1,7 +1,8 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { Loader2, Lock, Plus, Shirt, Trash2 } from 'lucide-react';
+import Link from 'next/link';
+import { Loader2, Lock, Plus, ShoppingBag, Shirt, Trash2 } from 'lucide-react';
 
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -22,6 +23,7 @@ import { BeeAvatar } from '@/components/profile/bee-avatar';
 import { useAvatar } from '@/lib/avatar-context';
 import { AvatarColor } from '@/lib/avatar';
 import { AvatarOutfit, deleteOutfit, listOutfits, saveOutfit } from '@/lib/avatar-outfits';
+import { findCosmetic } from '@/lib/cosmetics';
 
 const COLOR_OPTIONS: { value: AvatarColor; label: string; swatch: string }[] = [
   { value: 'amber', label: 'Amber', swatch: '#fbbf24' },
@@ -171,11 +173,7 @@ export default function ProfilePage() {
             </CardContent>
           </Card>
 
-          <SlotCard
-            title="Hat"
-            description="Equip a hat cosmetic."
-            filled={Boolean(slots.hat)}
-          />
+          <HatSlotCard equippedId={slots.hat} />
           <SlotCard
             title="Accessory"
             description="Equip an accessory cosmetic."
@@ -253,6 +251,30 @@ function SaveOutfitDialog({ onSave }: { onSave: (name: string) => Promise<void> 
         </DialogFooter>
       </DialogContent>
     </Dialog>
+  );
+}
+
+function HatSlotCard({ equippedId }: { equippedId: string | null }) {
+  const equipped = equippedId ? findCosmetic(equippedId) : undefined;
+
+  return (
+    <Card>
+      <CardHeader className="flex flex-row items-center justify-between space-y-0">
+        <div>
+          <CardTitle className="text-base">Hat</CardTitle>
+          <CardDescription>Equip a hat cosmetic.</CardDescription>
+        </div>
+        <Badge variant="outline">{equipped ? equipped.name : 'Empty'}</Badge>
+      </CardHeader>
+      <CardContent>
+        <Button asChild variant="outline" className="w-full">
+          <Link href="/shop">
+            <ShoppingBag className="mr-1.5 h-4 w-4" />
+            Browse hats
+          </Link>
+        </Button>
+      </CardContent>
+    </Card>
   );
 }
 

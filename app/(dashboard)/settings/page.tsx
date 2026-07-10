@@ -6,6 +6,7 @@ import {
   BookMarked,
   CalendarCheck,
   Coins,
+  Download,
   GraduationCap,
   ListChecks,
   Loader2,
@@ -32,6 +33,7 @@ import { PageHeader } from '@/components/shared/page-header';
 import { BeeAvatar } from '@/components/profile/bee-avatar';
 import { useStudyBee } from '@/lib/store';
 import { useAvatar } from '@/lib/avatar-context';
+import { useInstallPrompt } from '@/lib/use-install-prompt';
 import { getCreditsBalance } from '@/lib/credits';
 import { getTotalHoursStudied } from '@/lib/study-sessions';
 import { createClient } from '@/lib/supabase/client';
@@ -41,6 +43,7 @@ export default function SettingsPage() {
   const router = useRouter();
   const { tasks, notes, grades, events } = useStudyBee();
   const { slots: avatarSlots } = useAvatar();
+  const { canInstall, installed, promptInstall } = useInstallPrompt();
 
   const [email, setEmail] = useState<string | null>(null);
   const [hoursStudied, setHoursStudied] = useState(0);
@@ -111,7 +114,17 @@ export default function SettingsPage() {
             </div>
           </div>
 
-          <div className="flex flex-wrap gap-3">
+          <div className="flex flex-wrap items-center gap-3">
+            {canInstall && (
+              <Button variant="outline" onClick={promptInstall}>
+                <Download className="mr-1.5 h-4 w-4" />
+                Install App
+              </Button>
+            )}
+            {installed && (
+              <span className="text-sm text-muted-foreground">Installed as an app ✓</span>
+            )}
+
             <Button variant="outline" onClick={handleLogout} disabled={loggingOut}>
               {loggingOut ? (
                 <Loader2 className="mr-1.5 h-4 w-4 animate-spin" />

@@ -1,10 +1,10 @@
 # Supabase setup
 
 1. In your Supabase project, run the migrations in `supabase/migrations/` in order — `0001_init.sql`,
-   `0002_avatar_outfits.sql`, and `0003_core_data.sql` (SQL Editor, or `supabase db push` if you use
-   the CLI). Together they create `avatars`, `credits`, `focus_sessions`, `avatar_outfits`,
-   `classes`, `schedule_events`, `grades`, `notes`, and `tasks` — all with Row Level Security
-   scoped to `auth.users.id`.
+   `0002_avatar_outfits.sql`, `0003_core_data.sql`, and `0004_cosmetics.sql` (SQL Editor, or
+   `supabase db push` if you use the CLI). Together they create `avatars`, `credits`,
+   `focus_sessions`, `avatar_outfits`, `classes`, `schedule_events`, `grades`, `notes`, `tasks`,
+   and `cosmetic_purchases` — all with Row Level Security scoped to `auth.users.id`.
 2. Copy `.env.example` to `.env.local` and fill in:
    - `NEXT_PUBLIC_SUPABASE_URL` / `NEXT_PUBLIC_SUPABASE_ANON_KEY` — Project Settings → API.
    - `SUPABASE_SERVICE_ROLE_KEY` — same page. **Server-only**, used exclusively by
@@ -26,9 +26,11 @@
 
 - **Auth, Settings, Profile, Credits, Focus Study timer/breaks, global font**: fully wired to
   Supabase as described in the task doc.
-- **Cosmetics catalog/shop**: intentionally out of scope per the task doc — the avatar's slot
-  framework (`lib/avatar.ts`, `components/profile/bee-avatar.tsx`) is ready for it, and
-  `lib/credits.ts` already exports `spendCredits` for a future shop to call.
+- **Cosmetics catalog/shop**: now real — `/shop` page, `cosmetic_purchases` table, and the
+  `purchase_cosmetic` Postgres function (atomically spends credits + records ownership, so a
+  purchase can't partially fail). Currently 7 hats; accessories aren't built yet but would follow
+  the identical pattern (catalog entry in `lib/cosmetics.ts`, artwork in `bee-avatar.tsx`'s
+  `AccessoryLayer`, same purchase flow with `category: 'accessory'`).
 - **Spotify**: a real OAuth flow (`app/api/auth/spotify/*`), but token storage is a short-lived
   cookie rather than a persisted table — fine for testing, worth upgrading to a
   `spotify_tokens` table (same RLS pattern as the other tables) before shipping. Note: as of
